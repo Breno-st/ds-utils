@@ -56,7 +56,7 @@ def nested_single_cv(x_t, y_t, L, k_ext, k_int, hp_set):
         hp_dic = {}
         for idx, hp in enumerate(hp_set):
             hp_dic[idx]=[]
-            # partionate "S_k training rows" into "K_int" sets
+            # partitionate "S_k training rows" into "K_int" sets
             K_int_folds = KFold(n_splits = k_int, shuffle=False).split(x_S_k)
             for t_int_fold, v_int_fold in K_int_folds:
                 # sectioning "S_k" between "Ss_k" into "int_fold" sets
