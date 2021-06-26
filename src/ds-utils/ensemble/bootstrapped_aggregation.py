@@ -3,13 +3,10 @@
 * :class:`.BaggingSVC`
 """
 
-import pickle
-
 import numpy as np
 import pandas as pd
 from itertools import combinations
 from itertools import product
-import collections
 from collections import Counter
 
 
