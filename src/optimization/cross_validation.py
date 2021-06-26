@@ -1,4 +1,3 @@
-
 """Optimization
 * :function:`.single_model_nested_cv`
 * :function:`.double_model_nested_cv`
@@ -15,7 +14,6 @@ def nested_single_cv(x_t, y_t, L, k_ext, k_int, hp_set):
     """
     Help set a hyper-parameters list for a given model before makes
     its comparison with others hyper-parameterized models.
-
     Input:
         - x_t: features train (numpy.arrays)
         - y_t: labels train (numpy.arrays)
@@ -23,13 +21,11 @@ def nested_single_cv(x_t, y_t, L, k_ext, k_int, hp_set):
         - K_int: number of internal folds (integer)
         - L: learning algorithm function (function or class)
         - hp_set: list of parameters of the learning algorithm (array)
-
     Output:
         - Dataframe:
             - train_acc mean
             - train_acc std
             - train_f1 mean
-
     """
 
 
