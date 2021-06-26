@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
 
-setup(name='dsutils',
+setup(name='ds-utils',
       version='0.1',
       description='Basic utilities for data science',
       url='https://github.com/breno-st/ds-utils',
