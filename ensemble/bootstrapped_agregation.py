@@ -1,13 +1,28 @@
-
-!pip install git+http://github.com/breno-st/ds-utils.git
-from ds-utils.bootstrapped_agregation import BaggingTress
-from ds-utils.bootstrapped_agregation import BaggingSVC
-
-
-"""Optimization
+"""Bootstrapped_agregation
 * :class:`.BaggingTress`
 * :class:`.BaggingSVC`
 """
+
+import pickle
+
+import numpy as np
+import pandas as pd
+from itertools import combinations
+from itertools import product
+import collections
+from collections import Counter
+
+
+# models
+from sklearn import  svm
+from sklearn.tree import DecisionTreeClassifier
+
+
+# validation
+from sklearn.metrics import balanced_accuracy_score, accuracy_score, f1_score, roc_auc_score
+
+# vizualization
+
 
 class BaggingTrees:
     """Expand the subset of features in regards each node split for
@@ -21,6 +36,7 @@ class BaggingTrees:
         Training set labels.
     X_v : np.array
         Validation set features.
+
     p : list
             0: epochs
             1: n_trees
@@ -130,3 +146,35 @@ class BaggingTrees:
             self.prediction.append(most_common)
             self.votes.append(unanimity_rate)
         return self.prediction
+
+
+class BaggingSVC:
+    """Expand the subset of features in regards each node split for
+    a more flexible tunning.
+
+    Parameters
+    ----------
+    X_t : np.array
+        Training set features.
+    Y_t : np.array
+        Training set labels.
+    X_v : np.array
+        Validation set features.
+    p : list
+            0: epochs
+            1: n_svc
+            2: C
+            3: kernel
+            4: gamma
+            5: coef0
+            6: degree
+            7: tol
+
+    Output
+    -------
+    y_pred:      predictions on validation set X_v (array)
+    unan_rates:  rate of majority votes (array)
+    acc:         accuracy on training set Y_t (integer)
+    f1:          f1 score on training set Y_t (integer)
+    """
+    # TODO
