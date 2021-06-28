@@ -3,11 +3,11 @@ from setuptools import setup, find_packages
 
 HERE = pathlib.Path(__file__).parent
 
-PACKAGE_NAME = 'ds-utils'
+PACKAGE_NAME = 'ds_utils'
 AUTHOR = 'Breno Tiburcio'
 AUTHOR_EMAIL = 'b_tiburcio@hotmail.com'
-URL = 'https://github.com/breno-st/ds-utils'
-DOWNLOAD_URL = 'https://github.com/breno-st/ds-utils'
+URL = 'https://github.com/breno-st/ds_utils'
+DOWNLOAD_URL = 'https://github.com/breno-st/ds_utils'
 
 
 
@@ -34,7 +34,6 @@ CLASSIFIERS = [
 ]
 
 PYTHON_REQUIRES = '>=3.5'
-
 
 setup(name=PACKAGE_NAME,
       version=VERSION,
