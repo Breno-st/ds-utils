@@ -1,7 +1,57 @@
 """Optimization
-* :function:`.single_model_nested_cv`
-* :function:`.double_model_nested_cv`
+* :function:`.single_nested_cvrs`
+* :function:`.dual_nested_cvrs`
+* :function:`.single_cv`
+* :function:`.chi2_test`
 """
+
+
+
+
+# from scipy import stats
+# from pandas import *
+# # Store sample sizes and number of errors
+# n1 = 1000 # samples
+# m1 = 300 # errors
+# n2 = 1000 # samples
+# m2 = 360 # errors
+# # Store errors and correct classifications in a 2x2 table
+# perf = DataFrame([[m1, m2], [n1-m1, n2-m2]], index=["Error", "Correct"])
+# perf.columns = ["S_1", "S_2"]
+# print(perf)
+
+# ##### Chi-2 test for equality of error rates
+# pvalue = stats.chi2_contingency(perf)[1]
+# print("p-value = ", '{0:.6f}'.format(pvalue))
+# ##### Fisher test for equality of error rates
+# pvalue = stats.fisher_exact(perf)[1]
+# print("p-value = ", ’{0:.6f}’.format(pvalue))
+
+
+
+# import pandas as pd
+# from scipy import stats
+# res = pd.read_csv("Crossval.csv", index_col=0)
+# print(res)
+# """
+# algo1 algo2
+# 1 75.05 78.08
+# 2 74.24 79.77
+# 3 76.20 79.61
+# 4 81.35 88.39
+# 5 80.96 88.27
+# 6 84.22 76.20
+# 7 77.68 88.04
+# 8 82.10 87.50
+# 9 81.35 84.37
+# 10 81.80 84.04
+# """
+# ##### t-student test for equality of error rates
+# pvalue = stats.ttest_rel(res[’algo2’], res[’algo1’])[1]
+# print("p-value = ", ’{0:.6f}’.format(pvalue))
+
+
+
 
 def nested_single_cv(x_t, y_t, L, grid, k_ext, k_int):
     """
