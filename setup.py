@@ -25,7 +25,7 @@ INSTALL_REQUIRES = ['numpy'
       , 'matplotlib'
       , 'scikit-learn'
       , 'scikit-plot>=0.3.7'
-      , 'itertools'
+      , 'more-itertools'
       , 'collections'
 
 ]

@@ -1,5 +1,5 @@
 Metadata-Version: 2.1
-Name: data_st
+Name: data-st
 Version: 0.0.3
 Summary: Some ultilities for data science in Python
 Home-page: https://github.com/breno-st/ds_utils
@@ -8,7 +8,7 @@ Author-email: b_tiburcio@hotmail.com
 License: MIT
 Download-URL: https://github.com/breno-st/ds_utils
 Description: Just a test
-
+        
 Platform: UNKNOWN
 Classifier: Programming Language :: Python :: 3
 Requires-Python: >=3.5
