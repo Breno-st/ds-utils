@@ -1,9 +1,0 @@
-numpy
-pandas>=0.23.4
-itertools
-scipy
-matplotlib
-scikit-learn
-scikit-plot>=0.3.7
-itertools
-collections

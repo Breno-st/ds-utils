@@ -5,7 +5,16 @@
 * :function:`.chi2_test`
 """
 
+# data wrangling
+import numpy as np
+import pandas as pd
+from itertools import product
+from scipy import stats
 
+# validation
+from sklearn.metrics import balanced_accuracy_score, accuracy_score, f1_score, roc_auc_score
+from sklearn.model_selection import KFold
+from sklearn.preprocessing import MinMaxScaler
 
 
 # from scipy import stats
@@ -28,9 +37,8 @@
 # print("p-value = ", ’{0:.6f}’.format(pvalue))
 
 
-
 # import pandas as pd
-# from scipy import stats
+
 # res = pd.read_csv("Crossval.csv", index_col=0)
 # print(res)
 # """
@@ -96,7 +104,6 @@ def nested_single_cv(x_t, y_t, L, grid, k_ext, k_int):
                                         , 'v_bcr'
                                         ])
 
-
     # frame pointer
     i = 0
     # partionate "training rows" into "K_ext" sets
@@ -141,7 +148,7 @@ def nested_single_cv(x_t, y_t, L, grid, k_ext, k_int):
         inner_results.loc[i] = [sum(arr) / len(arr) for arr in hp_dic.values()]
 
 
-        # avg all hp predictions scores and define the higher to hp_hat
+        # avg all hp predictions scores to define hp_hat (the highest) # use t-test?
         ixd_max= max([(k,np.mean(v)) for k,v in hp_dic.items()],key=lambda item:item[1])[0]
         hp_hat = hp_set[ixd_max]
 

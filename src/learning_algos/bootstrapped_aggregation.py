@@ -3,6 +3,19 @@
 * :class:`.BaggingSVC`
 """
 
+# data wrangling
+import numpy as np
+import pandas as pd
+from collections import Counter
+
+# models
+from sklearn import  svm
+from sklearn.tree import DecisionTreeClassifier
+
+# validation
+from sklearn.metrics import balanced_accuracy_score, accuracy_score, f1_score, roc_auc_score
+
+
 class BaggingTrees:
     """
     Summary:        Expand the subset of features in regards each node split for
