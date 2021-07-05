@@ -20,7 +20,6 @@ LONG_DESC_TYPE = "text/markdown"
 
 INSTALL_REQUIRES = ['numpy'
       , 'pandas>=0.23.4'
-      , 'itertools'
       , 'scipy'
       , 'matplotlib'
       , 'scikit-learn'
