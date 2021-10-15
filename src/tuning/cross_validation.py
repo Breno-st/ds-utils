@@ -59,9 +59,7 @@ from sklearn.preprocessing import MinMaxScaler
 # print("p-value = ", ’{0:.6f}’.format(pvalue))
 
 
-
-
-def nested_single_cv(x_t, y_t, L, grid, k_ext, k_int):
+def nested_single(x_t, y_t, L, grid, k_ext, k_int):
     """
     Summary:    Help set a hyper-parameters list for a given model before makes
     --------    its comparison with others hyper-parameterized models.
@@ -78,20 +76,21 @@ def nested_single_cv(x_t, y_t, L, grid, k_ext, k_int):
 
     Example:    model1= BaggingTrees
     --------    grid1 = {'epochs':[1]
-                                    , 'n_trees':[100]
-                                    , 'criterion': ['entropy']
-                                    , 'min_samples_leaf':[0.06] #
-                                    , 'max_depth':[3]
-                                    , 'min_samples_split':[0.03] #
-                                    , 'max_leaf_nodes':[200]
-                                    }
+                            , 'n_trees':[100]
+                            , 'criterion': ['entropy']
+                            , 'min_samples_leaf':[0.06] #
+                            , 'max_depth':[3]
+                            , 'min_samples_split':[0.03] #
+                            , 'max_leaf_nodes':[200]
+                            }
 
                 K_int, K_ext = 4, 10
                 outter, inner = nested_single_cv(x_t, y_t, model1, grid1, K_ext, K_int)
 
-                outter.groupby('hp_hat').agg({'t_bcr': ['count', 'mean', 'std']
-                                            , 'v_bcr': ['mean', 'std']}).reset_index('hp_hat')
-
+                print(outter.groupby('hp_hat').agg({'t_bcr': ['count', 'mean', 'std']
+                                            , 'v_bcr': ['mean', 'std']}).reset_index('hp_hat'))
+                print(outter)
+                print(inner)
 
     """
 

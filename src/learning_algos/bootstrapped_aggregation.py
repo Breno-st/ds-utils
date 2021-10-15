@@ -42,7 +42,12 @@ class BaggingTrees:
     Example:        model = BaggingTrees(p)
     --------        model.fit(x_t, y_t)
                     predictions = model.predict(x_v)
+
                     votes_percentages = model.votes
+                    training_accuracy = model.acc
+                    training_bcr = model.bcr
+                    training_f1 = model.f1
+                    training_auc = model.auc
 
     """
 
@@ -168,6 +173,11 @@ class BaggingSVC:
     Example:        model = BaggingSVC(p)
     --------        model.fit(x_t, y_t)
                     predictions = model.predict(x_v)
+
                     votes_percentages = model.votes
+                    training_accuracy = model.acc
+                    training_bcr = model.bcr
+                    training_f1 = model.f1
+                    training_auc = model.auc
     """
     # TODO
