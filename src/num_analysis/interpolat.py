@@ -4,7 +4,7 @@
 * :function:`.lebesgue`
 * :function:`.`
 """
-#%%
+
 
 # Plot
 import matplotlib.pyplot as plt
@@ -110,27 +110,27 @@ def lebesgue(xinter):
 	return
 
 
-def f(x):
-    f_ = 1/(1+25*x**2)
-    return f_
+# # test
 
-n=10
+# def f(x):
+#     f_ = 1/(1+25*x**2)
+#     return f_
 
-xi = np.linspace(-.5,.5,n)
-yi = f(xi)
+# n=10
 
-x_ch = chebyshev_pts(n)
-y_ch = f(x_ch)
+# xi = np.linspace(-.5,.5,n)
+# yi = f(xi)
 
-plag = lagrange(xi, yi, f)
-ples = lebesgue(xi)
-plag = lagrange(x_ch, y_ch, f)
-ples = lebesgue(x_ch)
+# x_ch = chebyshev_pts(n)
+# y_ch = f(x_ch)
 
-
-
-
+# plag = lagrange(xi, yi, f)
+# ples = lebesgue(xi)
+# plag = lagrange(x_ch, y_ch, f)
+# ples = lebesgue(x_ch)
 
 
 
-# %%
+
+
+
