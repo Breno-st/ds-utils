@@ -1,6 +1,16 @@
 """Iterpolations
-* :class:`.BarycentricRational`
+* :function:`._q`
+* :function:`._compute_roots`
+* :function:`._mp_svd`
+* :function:`._mp_qr`
+* :function:`._nullspace_vector`
+* :function:`._compute_roots`
+* :function:`._mp_svd`
+* :function:`._mp_qr`
+* :function:`._nullspace_vector`
 * :function:`.chebyshev_pts`
+* :class:`.BarycentricRational`
+* :function:`._polynomial_weights`
 * :function:`.lagrange`
 * :function:`.lebesgue`
 * :function:`.floater-hermann`
@@ -14,7 +24,6 @@ import math
 import numpy as np
 import scipy.linalg
 from scipy.linalg.special_matrices import fiedler_companion
-
 
 def _q(z, f, w, x):
     """Function which can compute the 'upper' or 'lower' rational function
@@ -205,7 +214,7 @@ class BarycentricRational:
     def degree(self, tol=1e-12):
         """Compute the pair `(m,n)` of true degrees of the numerator and denominator."""
         return (self.degree_numer(tol=tol), self.degree_denom(tol=tol))
-
+    # empty
     def eval_deriv(self, x, k=1):
         """Evaluate the `k`-th derivative of this rational function at a scalar
         node `x`, or at each point of an array `x`. Only the cases `k <= 2` are
@@ -218,20 +227,20 @@ class BarycentricRational:
             W. Werner, 1986)
         """
         pass
-
+    # empty
     def gain(self):
         """The gain in a poles-zeros-gain representation of the rational function,
         or equivalently, the value at infinity.
         """
         pass
-
+    # empty
     def reduce_order(self):
         """Return a new :class:`BarycentricRational` which represents the same rational
         function as this one, but with minimal possible order.
         See (Ionita 2013), PhD thesis.
         """
         pass
-
+    # empty
     def polres(self, use_mp=False):
         """Return the poles and residues of the rational function.
         If ``use_mp`` is ``True``, uses the ``mpmath`` package to compute the
@@ -239,7 +248,7 @@ class BarycentricRational:
         before use.
         """
         pass
-
+    # empty
     def poles(self, use_mp=False):
         """Return the poles of the rational function.
         If ``use_mp`` is ``True``, uses the ``mpmath`` package to compute the
@@ -247,7 +256,7 @@ class BarycentricRational:
         before use.
         """
         pass
-
+    # empty
     def jacobians(self, x):
         """Compute the Jacobians of `r(x)`, where `x` may be a vector of
         evaluation points, with respect to the node, value, and weight vectors.
@@ -260,7 +269,6 @@ class BarycentricRational:
             and :attr:`self.weights`, respectively.
         """
         pass
-
 
 # lebesgue constant varying on points dist.
 def plot_lebesgue(xinter):
@@ -428,17 +436,20 @@ def f(x):
     return f_
 
 if __name__ == '__main__':
-
+    print("hello")
     # number of nodes and distribution
-    number = [8]
-    window = [6]
-    # interpolations
+    n = 12
+    nodes = np.linspace(-1,1,n)
+    values = f(nodes)
 
-    # lg = lagrange(np.linspace(-1,1,12), f)
-    # lg.make_plot(f,'Lagrange_eq')
+    # Lagrange interpolations
+    lg = lagrange(nodes, f)
+    lg.make_plot(f,'Lagrange')
 
-    # aaa(np.linspace(-1,1,12), fnc=f, tol=1e-13, mmax=100,  return_errors=False).make_plot(f, 'AAA')
+    # AAA interpolations
+    aaa_ = aaa(nodes, fnc=f, tol=1e-13, mmax=100,  return_errors=False)
+    aaa_.make_plot(f, 'AAA')
 
-    fh = floater_hormann(4, np.linspace(-1,1,12), f)
-    title = 'Floater-Hormann_(d={})'.format(4)
-    fh.make_plot(f, title)
+    # Floater Hormann interpolations
+    fh = floater_hormann(4, nodes, f)
+    fh.make_plot(f, 'Floater-Hormann_(d={})'.format(4))
