@@ -4,6 +4,7 @@
 * :function:`.bayesian`
 * :function:`.Perplexity`
 """
+
 from collections import Counter
 import numpy as np
 import num2words
