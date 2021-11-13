@@ -1,4 +1,5 @@
 """Iterpolations
+* :class:`.BarycentricRational`
 * :function:`._q`
 * :function:`._compute_roots`
 * :function:`._mp_svd`
@@ -9,7 +10,6 @@
 * :function:`._mp_qr`
 * :function:`._nullspace_vector`
 * :function:`.chebyshev_pts`
-* :class:`.BarycentricRational`
 * :function:`._polynomial_weights`
 * :function:`.lagrange`
 * :function:`.lebesgue`
@@ -24,6 +24,8 @@ import math
 import numpy as np
 import scipy.linalg
 from scipy.linalg.special_matrices import fiedler_companion
+
+# AUXILIARY Functions
 
 def _q(z, f, w, x):
     """Function which can compute the 'upper' or 'lower' rational function
@@ -93,14 +95,7 @@ def _nullspace_vector(A, use_mp=False):
         Q, _ = scipy.linalg.qr(A.T, mode='full')
     return Q[:, -1].conj()
 
-def chebyshev_pts(n):
-
-	pi = math.pi
-	tt = np.linspace(0,pi,n)
-	zz = np.exp(complex(0, 1)*tt)
-	x = [ele.real for ele in zz]
-	return np.array(x)
-
+# Points distances weights
 def _polynomial_weights(x):
     n = len(x)
     return np.array([
@@ -108,6 +103,7 @@ def _polynomial_weights(x):
             for i in range(n)
     ])
 
+# BARYCENTRICAL FORM
 class BarycentricRational:
     """
     source: https://github.com/c-f-h/baryrat/blob/d6741e410097b6a84f2a050ae36896decaddb1c1/baryrat.py#L541
@@ -270,7 +266,15 @@ class BarycentricRational:
         """
         pass
 
-# lebesgue constant varying on points dist.
+# CHEBYSHEV Distribution
+def chebyshev_pts(n):
+	pi = math.pi
+	tt = np.linspace(0,pi,n)
+	zz = np.exp(complex(0, 1)*tt)
+	x = [ele.real for ele in zz]
+	return np.array(x)
+
+# LESBEGUE Constant
 def plot_lebesgue(xinter):
 	"""
     Summary:    It plots the Lebesgue funtion for a given interpolation points to visualize the
@@ -306,7 +310,7 @@ def plot_lebesgue(xinter):
 	# adjust return for nodes, values and weights
 	return
 
-# basic lagrange interpolation
+# LAGRANGE Interpolation function
 def lagrange(xinter, fnc):
     """
     Summary:    From the intersection coordinates (xinter, yinter), thins function generates
@@ -330,7 +334,7 @@ def lagrange(xinter, fnc):
 
     return BarycentricRational(xinter, yinter, weights)
 
-# rational window interpolation
+#  FLOATER-hormann Interpolation function
 def floater_hormann(d, xinter, fnc):
     """
     Summary:    From the intersection coordinates (xinter, yinter), thins function generates
@@ -366,9 +370,8 @@ def floater_hormann(d, xinter, fnc):
 
     return BarycentricRational(xinter, yinter, weights)
 
-# best rational approximation
+# AAA Interpolation function
 def aaa(xinter, fnc=None, tol=1e-13, mmax=100,  return_errors=False):
-
     """
     Summary:    Greedy algorithm tha will find the optimum weight for a barycentric interpolation
     --------    given the number of interactions and the error rate tolerance.
@@ -431,25 +434,38 @@ def aaa(xinter, fnc=None, tol=1e-13, mmax=100,  return_errors=False):
     r = BarycentricRational(xj, yj, wj)
     return (r, errors) if return_errors else r
 
-def f(x):
-    f_ = np.exp(-25*x**2)
-    return f_
-
 if __name__ == '__main__':
-    print("hello")
-    # number of nodes and distribution
-    n = 12
-    nodes = np.linspace(-1,1,n)
-    values = f(nodes)
 
-    # Lagrange interpolations
-    lg = lagrange(nodes, f)
-    lg.make_plot(f,'Lagrange')
+    # samples function 1
+    def fnc1(x):
+        f_ = np.exp(-25*x**2)
+        return f_
+    # samples function 2
+    def fnc2(x):
+        f_ = np.exp(-25*x**2)
+        return f_
+    # samples function 3
+    def fnc3(x):
+        f_ = np.exp(-25*x**2)
+        return f_
 
-    # AAA interpolations
-    aaa_ = aaa(nodes, fnc=f, tol=1e-13, mmax=100,  return_errors=False)
-    aaa_.make_plot(f, 'AAA')
+    nodes_numbers = [4, 8, 12, 16, 20]
+    for n in nodes_numbers:
+        n = 12
+        nodes = np.linspace(-1,1,n)
+        values = fnc1(nodes)
 
-    # Floater Hormann interpolations
-    fh = floater_hormann(4, nodes, f)
-    fh.make_plot(f, 'Floater-Hormann_(d={})'.format(4))
+    ### LAGRANGE ####:
+        lg = lagrange(nodes, fnc1)
+        lg.make_plot(fnc1,'Lagrange')
+
+    ### FLOATER HORMANN ###:
+        blending = [4, 8, 12, 16, 20]
+        for d in blending:
+            fh = floater_hormann(d, nodes, fnc1)
+            fh.make_plot(fnc1, 'Floater-Hormann_(d={})'.format(4))
+
+    ### AAA ####:
+        aaa_ = aaa(nodes, fnc=fnc1, tol=1e-13, mmax=100,  return_errors=False)
+        aaa_.make_plot(fnc1, 'AAA')
+
