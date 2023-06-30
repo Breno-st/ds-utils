@@ -127,6 +127,8 @@ def nextword_prob(h, model, verbose=True):
 	if verbose:
 		print("The top3 most likely words after {}, are:{}".format(h, nextword_prob[:3]))
 	return  nextword_prob
+
+
 # processing f1
 def rmv_punctuation(array):
 	"Remove punctuation from a [sentence]"

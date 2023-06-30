@@ -34,6 +34,8 @@ def stemming(array):
 	pass
 	return
 
+
+
 def co_occurence_matrix(words):
 	unique = set(words)
 	InnerDict = {word:0 for word in unique}
@@ -42,14 +44,17 @@ def co_occurence_matrix(words):
 		N += 1 # the total number of context window for all words
 		if words[i] in InnerDict.keys():
 			OutterDict[words[i]] = {} if words[i] not in OutterDict.keys() else OutterDict[words[i]]
+			cache = []
 			for j in [-2, -1, 1, 2]: # c_(i-2), c_(i-1), wi, c_(i-+1), c_(i+2)
+
 					if 0 <= i + j < len(words) and words[i] != words[i+j]: # Cc_Matriz: cj not considered context of itself
 						try:
 							OutterDict[words[i]][words[i+j]] += 1
 						except:
 							OutterDict[words[i]][words[i+j]] = 1
-					if 0 <= i + j < len(words): # Dfi: cj considered in context window of itself
+					if 0 <= i + j < len(words) and words[i] != words[i+j] and words[i+j] not in cache: # consider cj only once
 						Dfj[words[i+j]] += 1
+						cache.append(words[i+j])
 	return OutterDict, Dfj, N
 
 def mtx_smoothing(matrix, epsilon):
@@ -139,4 +144,74 @@ def semantic_dist(n, target, weight):
 
 
 
+if __name__ == "__main__":
 
+### SENTIMENTAL ANALYSIS ###:
+	# train_corpus = BracketParseCorpusReader(root="corpora", fileids=["train.txt"])
+	# test_corpus = BracketParseCorpusReader(root="corpora", fileids=["test.txt"])
+	# support = 3
+
+	# # Tokenizing corpus
+	# train_tk, train_sents_tkd, train_tk_freq = sa.tokenize(train_corpus, support, True)
+
+	# # Tokenized vocabulary
+	# vocab = Vocabulary(train_sents_tkd, unk_cutoff=support)
+
+	# # Padding flat tokenized sentences
+	# train_tkd_padflat = list(flatten(pad_both_ends(sent, n=2) for sent in train_sents_tkd))
+
+	# ### N-GRAM: 2
+	# # N-gram, flat padded tokenized sentences
+	# train_tkd_padflat_bi = list(bigrams(train_tkd_padflat))
+	# # N-gram and Padding, padded tokenized sentences
+	# train_tkd_pad_bi = []
+	# for i in range(len(train_sents_tkd)):
+	#  	train_tkd_pad_bi.append(list(bigrams(pad_both_ends(train_sents_tkd[i], n=2)))) # necessary bi-gram???
+
+	# # Maximum Likelyhood Estimation (by nltk class)
+	# # check: https://www.nltk.org/api/nltk.lm.html?highlight=vocabulary#module-nltk.lm.vocabulary
+	# lm = MLE(2)
+	# lm.fit(train_tkd_pad_bi, vocab)
+	# word_prob = sa.nextword_prob("<s>", lm)
+
+	# # Laplace Smoothening (by nltk class)
+	# # lpc = Laplace(2)
+	# # lpc.fit(train_tk_pad_bi, vocab)
+
+	# # built (by class built above)
+
+	# mlm = sa.My_language_model(train_tkd_pad_bi, train_tkd_pad_bi, vocab) # flat_pad, n, support
+	# mlm.nxt_words("<s>")
+	# mlt.perplexity(test)
+
+### SEMANTIC VECTOR ####:
+	corpus = PlaintextCorpusReader(root="corpora", fileids=["corpus.txt"])
+	raw_words, raw_sents, raw_paras = corpus.words(), corpus.sents(), corpus.paras()
+	# Corpus processing
+
+	corpus_words = rmv_punctuation(raw_words)
+	corpus_sents = [rmv_punctuation(sent) for sent in raw_sents]
+
+	# corpus_words = ['mary', 'had', 'a', 'little', 'lamb', 'little', 'lamb', 'little', 'lamb', 'mary', 'had', 'a', 'little', 'lamb', 'whose', 'fleece', 'was', 'white', 'as', 'snow', 'and', 'everywhere', 'that', 'mary', 'went', 'mary', 'went', 'mary', 'went', 'everywhere', 'that', 'mary', 'went', 'the', 'lamb', 'was', 'sure', 'to', 'go']
+
+	# Task 2.1 - TF_IDF
+	tf_idf = tfidf_weight_matrix(corpus_words)
+	# Task 2.2 - PPMI
+	ppmi = ppmi_weight_matrix(corpus_words, 1e-4)
+	# Task 2.3 Word2Vec
+	"""
+	1. Using a word embedding with 100 dimensions --> vector_size (int, optional) – Dimensionality of the word vectors.
+	2. Using a window size of 5 words --> window (int, optional) – Maximum distance between the current and predicted word within a sentence.
+	3. Accepting any word occurring in the preprocessed worpus at least twice --> min_count (int, optional) – Ignores all words with total frequency lower than this.
+	4. Using skipgrams rather than continuous bag of words --> sg ({0, 1}, optional) – Training algorithm: 1 for skip-gram; otherwise CBOW.
+	5. Generating 10 negative samples per word --> negative (int, optional) – Negative sampling will be used. how many “noise words” (usually between 5-20).
+	6. Performing 300 iterations of the underlying gradient descent optimization --> epochs (int, optional) – Number of iterations (epochs) over the corpus.
+	"""
+	# model = Word2Vec(vector_size=100, window=2, min_count=2, workers=1, sg=1, negative=10, epochs=300)
+	# model.build_vocab(corpus_sents)  # prepare the model vocabulary
+	# model.train(corpus_sents, total_examples=model.corpus_count, epochs=model.epochs)
+	# model.train([["hello", "world"]], total_examples=1, epochs=1)
+
+	for word in ['sometimes', 'relief', 'took']:
+		dist = semantic_dist(5, word, tf_idf)
+		print("The TF-IDF 5 closest words for '{}', are: {}".format(word, [t[0] for t in dist ]))

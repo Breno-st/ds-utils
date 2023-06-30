@@ -109,10 +109,10 @@ def nested_single(x_t, y_t, L, grid, k_ext, k_int):
     K_ext_folds = KFold(n_splits = k_ext, shuffle=False).split(x_t)  # (markers t_i, v_i)
     for t_ext_fold, v_ext_fold in K_ext_folds:
         # sectioning "train set" between "S_k" into "ext_fold" sets
-        x_S_k = x_t[t_ext_fold] # training x
-        y_S_k = y_t[t_ext_fold] # training y
-        x_ext_fold = x_t[v_ext_fold] # test x
-        y_ext_fold = y_t[v_ext_fold] # test y
+        x_ext_fold = x_t[v_ext_fold] # testing x
+        y_ext_fold = y_t[v_ext_fold] # testing y
+        x_S_k = x_t[t_ext_fold] # training-validation x
+        y_S_k = y_t[t_ext_fold] # training-validation y
 
         # get hp_hat in the inner loop
         hp_dic = {}
@@ -124,8 +124,8 @@ def nested_single(x_t, y_t, L, grid, k_ext, k_int):
                 # sectioning "S_k" between "Ss_k" into "int_fold" sets
                 x_Ss_k = x_S_k[t_int_fold] # training x
                 y_Ss_k = y_S_k[t_int_fold] # training y
-                x_int_fold = x_S_k[v_int_fold] # test x
-                y_int_fold = y_S_k[v_int_fold] # test y
+                x_int_fold = x_S_k[v_int_fold] # validation x
+                y_int_fold = y_S_k[v_int_fold] # validation y
 
                 # must scaler after partition, for specific a training normalization
                 min_max_scaler = MinMaxScaler(feature_range=(0, 1))

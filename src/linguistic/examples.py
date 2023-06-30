@@ -16,7 +16,7 @@ import gensim.downloader
 
 if __name__ == "__main__":
 
-	# ### SENTIMENTAL ANALYSIS ###
+### SENTIMENTAL ANALYSIS ###:
 	# train_corpus = BracketParseCorpusReader(root="corpora", fileids=["train.txt"])
 	# test_corpus = BracketParseCorpusReader(root="corpora", fileids=["test.txt"])
 	# support = 3
@@ -54,7 +54,7 @@ if __name__ == "__main__":
 	# mlm.nxt_words("<s>")
 	# mlt.perplexity(test)
 
-	### SEMANTIC VECTOR ####
+### SEMANTIC VECTOR ####:
 	corpus = PlaintextCorpusReader(root="corpora", fileids=["corpus.txt"])
 	raw_words, raw_sents, raw_paras = corpus.words(), corpus.sents(), corpus.paras()
 	# Corpus processing
@@ -74,28 +74,28 @@ if __name__ == "__main__":
 	5. Generating 10 negative samples per word --> negative (int, optional) – Negative sampling will be used. how many “noise words” (usually between 5-20).
 	6. Performing 300 iterations of the underlying gradient descent optimization --> epochs (int, optional) – Number of iterations (epochs) over the corpus.
 	"""
-	model = Word2Vec(vector_size=100, window=2, min_count=2, workers=1, sg=1, negative=10, epochs=300)
-	model.build_vocab(corpus_sents)  # prepare the model vocabulary
-	model.train(corpus_sents, total_examples=model.corpus_count, epochs=model.epochs)
-	model.train([["hello", "world"]], total_examples=1, epochs=1)
+	# model = Word2Vec(vector_size=100, window=2, min_count=2, workers=1, sg=1, negative=10, epochs=300)
+	# model.build_vocab(corpus_sents)  # prepare the model vocabulary
+	# model.train(corpus_sents, total_examples=model.corpus_count, epochs=model.epochs)
+	# model.train([["hello", "world"]], total_examples=1, epochs=1)
 
 	for word in ['sometimes', 'relief', 'took']:
 		dist = sv.semantic_dist(5, word, tf_idf)
 		print("The TF-IDF 5 closest words for '{}', are: {}".format(word, [t[0] for t in dist ]))
 		dist = sv.semantic_dist(5, word, ppmi)
 		print("The PPMI  5 closest words for '{}', are: {}".format(word, [t[0] for t in dist ]))
-		sims = model.wv.most_similar(word, topn=5)
-		print("The W2V 5 closest words for '{}', are: {}".format(word, [t[0] for t in sims]))
-		# vector = model.wv[word]  					   							# get numpy vector of a word
-		# model.most_similar(positive=['woman', 'king'], negative=[], topn=1)	# vector operation
-		# model.doesnt_match("breakfast cereal dinner lunch".split())
-		# model.similarity('woman', 'man')										# scalar result
+		# sims = model.wv.most_similar(word, topn=5)
+	# 	print("The W2V 5 closest words for '{}', are: {}".format(word, [t[0] for t in sims]))
+	# 	# vector = model.wv[word]  					   							# get numpy vector of a word
+	# 	# model.most_similar(positive=['woman', 'king'], negative=[], topn=1)	# vector operation
+	# 	# model.doesnt_match("breakfast cereal dinner lunch".split())
+	# 	# model.similarity('woman', 'man')										# scalar result
 
-	# Pre-trained model
-	google_news_300 = gensim.downloader.load('word2vec-google-news-300')
-	#upload the word2vec-google-news-300 pre-trained embedding
-	google_news_300 = gensim.downloader.load('word2vec-google-news-300')
+	# # Pre-trained model
+	# google_news_300 = gensim.downloader.load('word2vec-google-news-300')
+	# #upload the word2vec-google-news-300 pre-trained embedding
+	# google_news_300 = gensim.downloader.load('word2vec-google-news-300')
 
-	ggl = google_news_300.most_similar('investigation', topn=5)
-	print("The Word2Vec  5 closest words for '{}', are: {}".format('investigation', [t[0] for t in ggl ]))
+	# ggl = google_news_300.most_similar('investigation', topn=5)
+	# print("The Word2Vec  5 closest words for '{}', are: {}".format('investigation', [t[0] for t in ggl ]))
 
